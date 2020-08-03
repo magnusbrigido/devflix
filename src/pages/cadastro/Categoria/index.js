@@ -29,7 +29,9 @@ function CadastroCategoria() {
 
   useEffect(() => {
     if (window.location.href.includes('localhost')) {
-      const URL = 'http://localhost:8080/categorias';
+      const URL = window.location.hostname.includes('localhost')
+        ? 'http://localhost:8080/categorias'
+        : 'https://magnusflix.herokuapp.com/categorias';
       fetch(URL)
         .then(async (respostaDoServer) => {
           if (respostaDoServer.ok) {
@@ -70,7 +72,7 @@ function CadastroCategoria() {
         />
 
         <FormField
-          label="Descrição:"
+          label="Descrição"
           type="textarea"
           name="descricao"
           value={values.descricao}
@@ -89,6 +91,12 @@ function CadastroCategoria() {
           Cadastrar
         </Button>
       </form>
+
+      {categorias.length === 0 && (
+        <div>
+          Loading...
+        </div>
+      )}
 
       <ul>
         {categorias.map((categoria) => (
